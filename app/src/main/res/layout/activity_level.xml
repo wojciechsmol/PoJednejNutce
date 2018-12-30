@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_level"
+    style="@style/Layout"
+    tools:context="com.smol.inz.pojednejnutce.view.LevelActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/coin" />
+
+        <TextView
+            android:id="@+id/user_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_title_guessed_songs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp">
+
+            <TextView
+                android:id="@+id/genre_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:gravity="center"
+                android:text="POP"
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genre_title_text"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/song_icon" />
+
+                <TextView
+                    android:id="@+id/guessed_overall_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="2/40"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+
+            <RelativeLayout
+                android:id="@+id/layout_amateur_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/new_game_margin_top_main">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/amateur_button_frame"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/song_icon" />
+
+                    <TextView
+                        android:id="@+id/guessed_amateur_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="2/40"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!--FrameLayout for touch Effect-->
+                <FrameLayout
+                    android:id="@+id/amateur_button_frame"
+                    style="@style/ButtonWrapper"
+                    android:layout_centerHorizontal="true">
+
+                    <Button
+                        android:id="@+id/button_amateur"
+                        style="@style/Button"
+                        android:shadowRadius="5"
+                        android:text="@string/amateur" />
+                </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/lock_image_amateur"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/lock"
+                     />
+
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_shower_singer_button"
+            android:layout_below="@id/layout_amateur_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/new_game_margin_top_main">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/shower_singer_button_frame"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/song_icon" />
+
+                <TextView
+                    android:id="@+id/guessed_shower_singer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="2/40"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!--FrameLayout for touch Effect-->
+            <FrameLayout
+                android:id="@+id/shower_singer_button_frame"
+                style="@style/ButtonWrapper"
+               >
+
+                <Button
+                    android:id="@+id/button_shower_singer"
+                    style="@style/Button"
+                    android:shadowRadius="5"
+                    android:text="@string/shower_singer" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/lock_image_shower_singer"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/lock"
+                />
+
+        </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

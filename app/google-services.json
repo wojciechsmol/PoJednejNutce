@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "148987409161",
+    "firebase_url": "https://pojednejnutce.firebaseio.com",
+    "project_id": "pojednejnutce",
+    "storage_bucket": "pojednejnutce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148987409161:android:95cab7390f47c163",
+        "android_client_info": {
+          "package_name": "com.smol.inz.pojednejnutce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148987409161-1l7416iagsgjdvq9p2frvovn9h1adp1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smol.inz.pojednejnutce",
+            "certificate_hash": "38814d6cc35c0d9a5398fbc4b8ef4263cc891fec"
+          }
+        },
+        {
+          "client_id": "148987409161-smp2njdecl8rhb007841gd5g54d3cp9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_vbSPNIEjFKyux1wXmmErOdXzdTYK4zc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148987409161-smp2njdecl8rhb007841gd5g54d3cp9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

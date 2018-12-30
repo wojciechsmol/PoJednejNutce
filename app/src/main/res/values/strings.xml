@@ -1,3 +1,30 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">PoJednejNutce</string>
+
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_login">Login</string>
+    <string name="login_signup">Sign Up</string>
+
+    <string name="sign_in">Logging in</string>
+    <string name="str_creating_account">Creating account</string>
+    <string name="str_registration_successful">Registration successful</string>
+    <string name="play">PLAY</string>
+    <string name="amateur">Amateur</string>
+    <string name="correct_answer">Correct answer!</string>
+    <string name="wrong_answer">Wrong answer!</string>
+    <string name="exit_game">Exit Game</string>
+    <string name="time_up">Time\'s up!</string>>
+    <string name="shower_singer">Shower Singer</string>
+    <string name="ranking">Ranking</string>
+    <string name="pop">Pop</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel_game">Are you giving up?</string>
+    <string name="score">SCORE:</string>
+    <string name="logout">Logout</string>
+    <string name="choose_genre">Choose Genre:</string>
+    <string name="main_menu">Menu</string>
+    <string name="question">Question <xliff:g id="question_nr">%d</xliff:g> / <xliff:g id="max_questions">%d</xliff:g></string>
+
 </resources>

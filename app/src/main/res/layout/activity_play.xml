@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_question"
+    style="@style/Layout"
+
+    tools:context="com.smol.inz.pojednejnutce.view.PlayActivity">
+
+    <ImageButton
+        android:id="@+id/exit_icon"
+        style="@style/ExitIcon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/logo"
+            style="@style/Logo" />
+
+        <TextView
+            android:id="@+id/question_text"
+            style="@style/TextTitle.Question" />
+
+        <SeekBar
+            android:id="@+id/progress_bar"
+            style="@style/SeekBar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8">
+
+
+            <GridLayout style="@style/GridButtons">
+
+                <!--I wrap the buttons in FrameLayouts so that they don't mess up
+                when there are 2 lines of TEXT and for TOUCH EFFECT-->
+
+                <FrameLayout
+                    style="@style/ButtonWrapper.Play"
+                    android:layout_column="0"
+                    android:layout_marginBottom="@dimen/button_wrapper_margin"
+                    android:layout_row="0">
+
+                    <Button
+                        android:id="@+id/button_answer0"
+                        style="@style/Button.Answer"
+                        android:shadowRadius="5" />
+                </FrameLayout>
+
+                <FrameLayout
+                    style="@style/ButtonWrapper.Play"
+                    android:layout_column="0"
+                    android:layout_row="1">
+
+                    <Button
+                        android:id="@+id/button_answer1"
+                        style="@style/Button.Answer"
+                        android:shadowRadius="5" />
+                </FrameLayout>
+
+                <FrameLayout
+                    style="@style/ButtonWrapper.Play"
+                    android:layout_column="1"
+                    android:layout_marginBottom="@dimen/button_wrapper_margin"
+                    android:layout_marginLeft="5dp"
+                    android:layout_row="0">
+
+                    <Button
+                        android:id="@+id/button_answer2"
+                        style="@style/Button.Answer"
+                        android:shadowRadius="5" />
+                </FrameLayout>
+
+                <FrameLayout
+                    style="@style/ButtonWrapper.Play"
+                    android:layout_column="1"
+                    android:layout_marginLeft="@dimen/button_wrapper_margin"
+                    android:layout_row="1">
+
+                    <Button
+                        android:id="@+id/button_answer3"
+                        style="@style/Button.Answer"
+                        android:shadowRadius="5" />
+                </FrameLayout>
+
+
+            </GridLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
