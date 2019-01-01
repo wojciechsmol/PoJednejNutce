@@ -18,7 +18,7 @@
             android:src="@drawable/coin"
             android:layout_gravity="center"/>
     <TextView
-        android:id="@+id/user_points"
+        android:id="@+id/user_score"
         android:gravity="center"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"

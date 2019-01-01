@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button mPlayButton;
     private Button mLogoutButton;
     private Button mRankingButton;
-    private TextView mUserPoints;
+    private TextView mUserScore;
 
 
     @Override
@@ -43,10 +43,10 @@ public class HomeActivity extends AppCompatActivity {
         //TODO Mozna dac oczekiwanie az sie wszystko wczyta
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        setListenerUserPoints();
+        setListenerUserScore();
 
-        mUserPoints = findViewById(R.id.user_points);
-        mUserPoints.setVisibility(View.INVISIBLE);
+        mUserScore = findViewById(R.id.user_score);
+        mUserScore.setVisibility(View.INVISIBLE);
         mLogoutButton = findViewById(R.id.button_logout);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                startActivity(new Intent(HomeActivity.this, GenresActivity.class));
+                startActivity(new Intent(HomeActivity.this, CategoryActivity.class));
             }
         });
 
@@ -76,21 +76,21 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void setListenerUserPoints() {
-        //set value event listener for points text view
+    private void setListenerUserScore() {
+        //set value event listener for score text view
         mDatabaseReference.child("Users").child(mFirebaseAuth.getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserPOJO mUserInfo = dataSnapshot.getValue(UserPOJO.class);
-                        mUserPoints.setText(String.valueOf(mUserInfo.getPoints()));
-                        mUserPoints.setVisibility(View.VISIBLE);
+                        mUserScore.setText(String.valueOf(mUserInfo.getScore()));
+                        mUserScore.setVisibility(View.VISIBLE);
 
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("HomeActivity: ", "POINTS UPDATE WENT WRONG!");
+                        Log.d("HomeActivity: ", "SCORE UPDATE WENT WRONG!");
                     }
                 });
     }

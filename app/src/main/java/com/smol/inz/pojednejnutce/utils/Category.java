@@ -1,5 +1,5 @@
 package com.smol.inz.pojednejnutce.utils;
 
-public enum Genre {
+public enum Category {
     POP
 }

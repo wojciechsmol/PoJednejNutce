@@ -24,9 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.smol.inz.pojednejnutce.Game;
 import com.smol.inz.pojednejnutce.R;
 import com.smol.inz.pojednejnutce.model.SongPOJO;
-import com.smol.inz.pojednejnutce.model.UserGenreGussedSongsPOJO;
+import com.smol.inz.pojednejnutce.model.UserCategoryGussedSongsPOJO;
 import com.smol.inz.pojednejnutce.model.UserPOJO;
-import com.smol.inz.pojednejnutce.utils.Genre;
+import com.smol.inz.pojednejnutce.utils.Category;
 import com.smol.inz.pojednejnutce.utils.Level;
 
 import java.util.ArrayList;
@@ -46,9 +46,9 @@ public class LevelActivity extends AppCompatActivity {
 
     private Button mAmateurButton;
     private Button mShowerSingerButton;
-    private TextView mGenreTitleText;
-    private Genre mGenre;
-    private TextView mUserPoints;
+    private TextView mCategoryTitleText;
+    private Category mCategory;
+    private TextView mUserScore;
     private TextView mGuessedOverallText;
     private TextView mGuessedAmateurText;
     private TextView mGuessedShowerSingerText;
@@ -64,10 +64,10 @@ public class LevelActivity extends AppCompatActivity {
 
 
     private void initialize() {
-        setGenre();
+        setCategory();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mUserPoints = findViewById(R.id.user_points);
+        mUserScore = findViewById(R.id.user_score);
         mAmateurButton = findViewById(R.id.button_amateur);
         mAmateurButton.setEnabled(false);
         mAmateurButton.setAlpha(.3f);;
@@ -88,63 +88,63 @@ public class LevelActivity extends AppCompatActivity {
             }
         });
 
-        mGenreTitleText = findViewById(R.id.genre_title_text);
-        mGenreTitleText.setText(getmGenre().toString());
+        mCategoryTitleText = findViewById(R.id.category_title_text);
+        mCategoryTitleText.setText(getmCategory().toString());
         mGuessedOverallText = findViewById(R.id.guessed_overall_text);
         mGuessedAmateurText = findViewById(R.id.guessed_amateur_text);
         mGuessedShowerSingerText = findViewById(R.id.guessed_shower_singer_text);
         lockAmateur = findViewById(R.id.lock_image_amateur);
         lockShowerSinger = findViewById(R.id.lock_image_shower_singer);
-        getGenreUserGuessedSongsCount();
-        setListenerUserPoints();
+        getCategoryUserGuessedSongsCount();
+        setListenerUserScore();
 
 
     }
 
 
-    private void setListenerUserPoints() {
-        //set value event listener for points text view
+    private void setListenerUserScore() {
+        //set value event listener for score text view
         mDatabaseReference.child("Users").child(mFirebaseAuth.getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         UserPOJO mUserInfo = dataSnapshot.getValue(UserPOJO.class);
-                        mUserPoints.setText(String.valueOf(mUserInfo.getPoints()));
+                        mUserScore.setText(String.valueOf(mUserInfo.getScore()));
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("HomeActivity: ", "POINTS UPDATE WENT WRONG!");
+                        Log.d("HomeActivity: ", "SCORE UPDATE WENT WRONG!");
                     }
                 });
     }
 
 
-    private void setGenre() {
+    private void setCategory() {
         Intent intent = getIntent();
 
-        switch (intent.getStringExtra(GenresActivity.GENRE)) {
+        switch (intent.getStringExtra(CategoryActivity.CATEGORY)) {
             case "POP":
-                setmGenre(Genre.POP);
+                setmCategory(Category.POP);
                 break;
         }
     }
 
-    public Genre getmGenre() {
-        return mGenre;
+    public Category getmCategory() {
+        return mCategory;
     }
 
-    public void setmGenre(Genre mGenre) {
-        this.mGenre = mGenre;
+    public void setmCategory(Category mCategory) {
+        this.mCategory = mCategory;
     }
 
     private void onClickCategory(final Level level) {
 
         Task<Void> allTask;
 
-        final Task<List<SongPOJO>> getSongsTask = getSongsForCurrentGenreAndLevelTask(mGenre, level);
-        final Task<List<String>> getGuessedSongsTask = getGuessedSongsTask(getmGenre(), level);
+        final Task<List<SongPOJO>> getSongsTask = getSongsForCurrentCategoryAndLevelTask(mCategory, level);
+        final Task<List<String>> getGuessedSongsTask = getGuessedSongsTask(getmCategory(), level);
 
         allTask = Tasks.whenAll(getSongsTask, getGuessedSongsTask);
         allTask.addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -153,7 +153,7 @@ public class LevelActivity extends AppCompatActivity {
 
                 PlayActivity.game = new Game.Builder()
                         .setLevel(level)
-                        .setGenre(getmGenre())
+                        .setCategory(getmCategory())
                         .setAvailableSongs(getSongsTask.getResult())
                         .setGuessedSongs(getGuessedSongsTask.getResult())
                         .build();
@@ -174,11 +174,11 @@ public class LevelActivity extends AppCompatActivity {
     }
 
 
-    private Task<List<SongPOJO>> getSongsForCurrentGenreAndLevelTask(Genre genre, Level level) {
+    private Task<List<SongPOJO>> getSongsForCurrentCategoryAndLevelTask(Category category, Level level) {
 
         final TaskCompletionSource<List<SongPOJO>> tcs = new TaskCompletionSource<>();
 
-        mDatabaseReference.child("Songs").child(genre.toString()).child(level.toString())
+        mDatabaseReference.child("Songs").child(category.toString()).child(level.toString())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -203,11 +203,11 @@ public class LevelActivity extends AppCompatActivity {
     }
 
 
-    private Task<List<String>> getGuessedSongsTask(Genre genre, Level level) {
+    private Task<List<String>> getGuessedSongsTask(Category category, Level level) {
 
         final TaskCompletionSource<List<String>> tcs = new TaskCompletionSource<>();
         mDatabaseReference.child("GuessedSongs").child(mFirebaseAuth.getCurrentUser().getUid())
-                .child(genre.toString()).child(level.toString())
+                .child(category.toString()).child(level.toString())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -232,15 +232,15 @@ public class LevelActivity extends AppCompatActivity {
 
     }
 
-    private void getGenreUserGuessedSongsCount () {
+    private void getCategoryUserGuessedSongsCount() {
 
-        mDatabaseReference.child(mGenre.toString().toLowerCase() + "UserGuessedSongsCount").child(mFirebaseAuth.getCurrentUser().getUid())
+        mDatabaseReference.child(mCategory.toString().toLowerCase() + "UserGuessedSongsCount").child(mFirebaseAuth.getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        UserGenreGussedSongsPOJO userGenreGussedSongsPOJO = dataSnapshot.getValue(UserGenreGussedSongsPOJO.class);
-                        setButtonsVisibilityAndLocks(userGenreGussedSongsPOJO);
-                        setGuessedSongsCountTexts(userGenreGussedSongsPOJO);
+                        UserCategoryGussedSongsPOJO userCategoryGussedSongsPOJO = dataSnapshot.getValue(UserCategoryGussedSongsPOJO.class);
+                        setButtonsVisibilityAndLocks(userCategoryGussedSongsPOJO);
+                        setGuessedSongsCountTexts(userCategoryGussedSongsPOJO);
                     }
 
                     @Override
@@ -251,34 +251,34 @@ public class LevelActivity extends AppCompatActivity {
 
     }
 
-    private void setGuessedSongsCountTexts(UserGenreGussedSongsPOJO userGenreGussedSongsPOJO) {
-        int genreAvailableAll = 0;
-        int genreAmateurAvailable = 0;
-        int genreShowerSingerAvailable = 0;
+    private void setGuessedSongsCountTexts(UserCategoryGussedSongsPOJO userCategoryGussedSongsPOJO) {
+        int categoryAvailableAll = 0;
+        int categoryAmateurAvailable = 0;
+        int categoryShowerSingerAvailable = 0;
 
-        switch (mGenre) {
+        switch (mCategory) {
             case POP:
-                genreAvailableAll = POP_AVAILABLE_ALL;
-                genreAmateurAvailable = POP_AMATEUR_AVAILABLE_SONGS;
-                genreShowerSingerAvailable = POP_SHOWER_SINGER_AVAILABLE_SONGS;
+                categoryAvailableAll = POP_AVAILABLE_ALL;
+                categoryAmateurAvailable = POP_AMATEUR_AVAILABLE_SONGS;
+                categoryShowerSingerAvailable = POP_SHOWER_SINGER_AVAILABLE_SONGS;
             break;
         }
 
-        mGuessedOverallText.setText(String.valueOf(userGenreGussedSongsPOJO.getGuessedOverall()) + "/" + genreAvailableAll);
-        mGuessedAmateurText.setText(String.valueOf(userGenreGussedSongsPOJO.getGuessedAmateur()) + "/" + genreAmateurAvailable);
-        mGuessedShowerSingerText.setText(String.valueOf(userGenreGussedSongsPOJO.getGuessedShowerSinger()) + "/" + genreShowerSingerAvailable);
+        mGuessedOverallText.setText(String.valueOf(userCategoryGussedSongsPOJO.getGuessedOverall()) + "/" + categoryAvailableAll);
+        mGuessedAmateurText.setText(String.valueOf(userCategoryGussedSongsPOJO.getGuessedAmateur()) + "/" + categoryAmateurAvailable);
+        mGuessedShowerSingerText.setText(String.valueOf(userCategoryGussedSongsPOJO.getGuessedShowerSinger()) + "/" + categoryShowerSingerAvailable);
     }
 
-    private void setButtonsVisibilityAndLocks(UserGenreGussedSongsPOJO userGenreGussedSongsPOJO) {
+    private void setButtonsVisibilityAndLocks(UserCategoryGussedSongsPOJO userCategoryGussedSongsPOJO) {
 
-        if (userGenreGussedSongsPOJO.getGuessedAmateur() < POP_AMATEUR_AVAILABLE_SONGS) {
+        if (userCategoryGussedSongsPOJO.getGuessedAmateur() < POP_AMATEUR_AVAILABLE_SONGS) {
             mAmateurButton.setEnabled(true);
             mAmateurButton.setAlpha(1);
             lockAmateur.setImageResource(R.drawable.lock_open);
         }
 
-        if (userGenreGussedSongsPOJO.getGuessedAmateur() >= POP_AMATEUR_AVAILABLE_SONGS
-                && userGenreGussedSongsPOJO.getGuessedShowerSinger() < POP_SHOWER_SINGER_AVAILABLE_SONGS) {
+        if (userCategoryGussedSongsPOJO.getGuessedAmateur() >= POP_AMATEUR_AVAILABLE_SONGS
+                && userCategoryGussedSongsPOJO.getGuessedShowerSinger() < POP_SHOWER_SINGER_AVAILABLE_SONGS) {
             mShowerSingerButton.setEnabled(true);
             mShowerSingerButton.setAlpha(1);
             lockAmateur.setImageResource(R.drawable.lock_open);

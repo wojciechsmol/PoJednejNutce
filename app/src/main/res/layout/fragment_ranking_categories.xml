@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Layout"
+    tools:context=".view.RankingCategoriesFragment">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Ranking Category:"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!--FrameLayout for touch Effect-->
+                <FrameLayout
+                    android:id="@+id/pop_category_frame"
+                    style="@style/ButtonWrapper"
+                    android:layout_marginTop="@dimen/new_game_margin_top_main">
+                    <Button
+                        android:id="@+id/button_pop_category"
+                        style="@style/Button"
+                        android:text="@string/pop"
+                        android:shadowRadius="5"/>
+                </FrameLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+</RelativeLayout>

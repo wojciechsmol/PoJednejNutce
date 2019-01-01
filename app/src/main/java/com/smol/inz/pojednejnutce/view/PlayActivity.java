@@ -27,13 +27,13 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.smol.inz.pojednejnutce.Game;
 import com.smol.inz.pojednejnutce.R;
-import com.smol.inz.pojednejnutce.model.UserGenreGussedSongsPOJO;
+import com.smol.inz.pojednejnutce.model.UserCategoryGussedSongsPOJO;
+import com.smol.inz.pojednejnutce.model.UserPOJO;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +47,8 @@ public class PlayActivity extends AppCompatActivity {
     private static final int TRANSITION_TIME = 1100;
     // Y axe offset for Toast
     private static final int GRAVITY_Y_AXE = 25;
+
+    public static final int REFLEX_MARGIN = 700;
 
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabaseReference;
@@ -69,6 +71,8 @@ public class PlayActivity extends AppCompatActivity {
     private boolean wasButtonBlocked;
     // Handler for Runnable
     private final Handler myHandler = new Handler();
+
+    private double finalTime;
 
 
     /**
@@ -269,6 +273,11 @@ public class PlayActivity extends AppCompatActivity {
         public void onClick(View v) {
             // Blocking the buttons
             blockButtons();
+
+            //Uwzglednienie opoznienia na czas reakcji
+            double timeGuessed = mMediaPlayer.getCurrentPosition() - REFLEX_MARGIN;
+
+
             // Stop playback and release resource
             releaseMediaPlayer();
             // Answer button initialization
@@ -284,8 +293,9 @@ public class PlayActivity extends AppCompatActivity {
                 mAnswerMediaPlayer = MediaPlayer.create(PlayActivity.this, R.raw.correct_answer);
                 mAnswerMediaPlayer.start();
 
+
                 // Showing a toast with info that the answer was correct
-                final Toast toast = Toast.makeText(PlayActivity.this, getString(R.string.correct_answer), Toast.LENGTH_SHORT);
+                final Toast toast = Toast.makeText(PlayActivity.this, getString(R.string.correct_answer) + ": + " +game.correctAnswer(timeGuessed, finalTime), Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, GRAVITY_Y_AXE);
                 toast.show();
 
@@ -302,11 +312,9 @@ public class PlayActivity extends AppCompatActivity {
                                           public void run() {
                                               // If this is the end of the game go to GameEndActivity
                                               if (game.endOfAGame()) {
-                                                  game.correctAnswer();
                                                   updateDataAndStartGameEndActivity();
                                               } // Otherwise go to next question
                                               else {
-                                                  game.correctAnswer();
                                                   startActivity(new Intent(PlayActivity.this, PlayActivity.class));
                                               }
 
@@ -374,7 +382,7 @@ public class PlayActivity extends AppCompatActivity {
             // setting startTime for the progressBar
             startTime = mMediaPlayer.getCurrentPosition();
             // setting finalTime for the progressBar
-            double finalTime = mMediaPlayer.getDuration();
+            finalTime = mMediaPlayer.getDuration();
             // Setup a listener on the media player, so that we can stop and release the
             // media player once the sound has finished playing.
             mMediaPlayer.setOnCompletionListener(mCompletionListener);
@@ -470,21 +478,32 @@ public class PlayActivity extends AppCompatActivity {
 
     private void updateDataAndStartGameEndActivity() {
 
-        final TaskCompletionSource<Void> tcsUpdateUserPoints = new TaskCompletionSource<>();
-        final DatabaseReference pointsReference = mDatabaseReference.child("Users").child(mFirebaseAuth.getCurrentUser().getUid()).child("points");
+        final TaskCompletionSource<Void> tcsUpdateUserScore = new TaskCompletionSource<>();
+        final DatabaseReference userReference = mDatabaseReference.child("Users").child(mFirebaseAuth.getCurrentUser().getUid());
 
-        pointsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        int score = dataSnapshot.getValue(Integer.class);
+                        UserPOJO user = dataSnapshot.getValue(UserPOJO.class);
+                        int score = user.getScore();
                         score += game.getmScore();
-                        pointsReference.setValue(score);
-                        tcsUpdateUserPoints.setResult(null);
+                        user.setScore(score);
+
+                        switch (game.getmCategory()) {
+                            case POP:
+                                int scorePop = user.getScorePOP();
+                                scorePop += game.getmScore();
+                                user.setScorePOP(scorePop);
+                                break;
+                        }
+
+                        userReference.setValue(user);
+                        tcsUpdateUserScore.setResult(null);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        tcsUpdateUserPoints.setException(databaseError.toException());
+                        tcsUpdateUserScore.setException(databaseError.toException());
                     }
                 });
 
@@ -493,24 +512,24 @@ public class PlayActivity extends AppCompatActivity {
 
         final TaskCompletionSource<Void> tcsUpdateGuessedSongsCount = new TaskCompletionSource<>();
         final DatabaseReference guessedSongsReference = mDatabaseReference.
-                child(game.getmGenre().toString().toLowerCase() + "UserGuessedSongsCount").
+                child(game.getmCategory().toString().toLowerCase() + "UserGuessedSongsCount").
                 child(mFirebaseAuth.getCurrentUser().getUid());
 
         guessedSongsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserGenreGussedSongsPOJO userGenreGussedSongsPOJO = dataSnapshot.getValue(UserGenreGussedSongsPOJO.class);
-                userGenreGussedSongsPOJO.setGuessedOverall(userGenreGussedSongsPOJO.getGuessedOverall() + game.getmGuessedSongsCurrentGameCount());
+                UserCategoryGussedSongsPOJO userCategoryGussedSongsPOJO = dataSnapshot.getValue(UserCategoryGussedSongsPOJO.class);
+                userCategoryGussedSongsPOJO.setGuessedOverall(userCategoryGussedSongsPOJO.getGuessedOverall() + game.getmGuessedSongsCurrentGameCount());
 
                 switch (game.getmLevel()) {
                     case AMATEUR:
-                        userGenreGussedSongsPOJO.setGuessedAmateur(userGenreGussedSongsPOJO.getGuessedAmateur() + game.getmGuessedSongsCurrentGameCount());
+                        userCategoryGussedSongsPOJO.setGuessedAmateur(userCategoryGussedSongsPOJO.getGuessedAmateur() + game.getmGuessedSongsCurrentGameCount());
                         break;
                     case SHOWER_SINGER:
-                        userGenreGussedSongsPOJO.setGuessedShowerSinger(userGenreGussedSongsPOJO.getGuessedShowerSinger() + game.getmGuessedSongsCurrentGameCount());
+                        userCategoryGussedSongsPOJO.setGuessedShowerSinger(userCategoryGussedSongsPOJO.getGuessedShowerSinger() + game.getmGuessedSongsCurrentGameCount());
                 }
 
-                guessedSongsReference.setValue(userGenreGussedSongsPOJO);
+                guessedSongsReference.setValue(userCategoryGussedSongsPOJO);
                 tcsUpdateGuessedSongsCount.setResult(null);
             }
 
@@ -523,7 +542,7 @@ public class PlayActivity extends AppCompatActivity {
         //UPDATE GuessedSongs
         //===========================================================
         final DatabaseReference addGuessedSongsReference = mDatabaseReference.child("GuessedSongs").child(mFirebaseAuth.getCurrentUser().getUid())
-                .child(game.getmGenre().toString()).child(game.getmLevel().toString());
+                .child(game.getmCategory().toString()).child(game.getmLevel().toString());
 
         for (String songId: game.getmSongsGuessedDuringTheGame()) {
             addGuessedSongsReference.child(songId).setValue("true")
@@ -539,7 +558,7 @@ public class PlayActivity extends AppCompatActivity {
 
         Task<Void> allTask;
 
-        allTask = Tasks.whenAll(tcsUpdateUserPoints.getTask(), tcsUpdateGuessedSongsCount.getTask());
+        allTask = Tasks.whenAll(tcsUpdateUserScore.getTask(), tcsUpdateGuessedSongsCount.getTask());
         allTask.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

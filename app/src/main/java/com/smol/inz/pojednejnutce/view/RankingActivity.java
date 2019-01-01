@@ -1,98 +1,68 @@
 package com.smol.inz.pojednejnutce.view;
 
-import android.graphics.Typeface;
+import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.MenuItem;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.smol.inz.pojednejnutce.R;
-import com.smol.inz.pojednejnutce.model.UserPOJO;
-import com.smol.inz.pojednejnutce.viewHolder.RankingOverallViewHolder;
+import com.smol.inz.pojednejnutce.utils.Category;
+import com.smol.inz.pojednejnutce.utils.FragmentChangeListener;
 
-public class RankingActivity extends AppCompatActivity {
+public class RankingActivity extends AppCompatActivity implements FragmentChangeListener {
 
-    private RecyclerView mRankingOverallList;
-    private LinearLayoutManager mLayoutManager;
-    private FirebaseAuth mFirebaseAuth;
-    private DatabaseReference mDatabaseReference;
-    private FirebaseRecyclerOptions<UserPOJO> options;
-    private FirebaseRecyclerAdapter<UserPOJO, RankingOverallViewHolder> adapter;
+    private BottomNavigationView mBottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
-        initialize();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
-
-    private void initialize() {
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mRankingOverallList = findViewById(R.id.ranking_list);
-        mLayoutManager = new LinearLayoutManager(this);
-
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
-        mRankingOverallList.setHasFixedSize(true);
-        mRankingOverallList.setLayoutManager(mLayoutManager);
-
-        Query query = mDatabaseReference.child("Users").orderByChild("points");
-
-        options = new FirebaseRecyclerOptions.Builder<UserPOJO>()
-                .setIndexedQuery(query, mDatabaseReference.child("Users"), UserPOJO.class)
-                .build();
-
-        adapter = new FirebaseRecyclerAdapter<UserPOJO, RankingOverallViewHolder>(options) {
+        mBottomNavigationView = findViewById(R.id.navigation);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            protected void onBindViewHolder(RankingOverallViewHolder holder, int position, UserPOJO model) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                 Fragment selectedFragment = null;
 
-                holder.mUserNameText.setText(model.getName());
-                holder.mUserScoreText.setText(String.valueOf(model.getPoints()));
+                switch(item.getItemId()) {
 
-                if (model.getName().equals(mFirebaseAuth.getCurrentUser().getEmail())) {
-                    Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
+                    case R.id.action_ranking_overall:
+                        selectedFragment = RankingOverallFragment.newInstance();
+                        break;
+                    case R.id.action_ranking_categories:
+                        selectedFragment = RankingCategoriesFragment.newInstance();
+                        break;
+                    case R.id.action_ranking_songs:
+                        selectedFragment = RankingSongsFragment.newInstance();
+                        break;
 
-                    holder.mUserNameText.setTypeface(boldTypeface);
-                    holder.mUserScoreText.setTypeface(boldTypeface);
                 }
-
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, selectedFragment);
+                transaction.commit();
+                return true;
             }
+        });
+        setDefaultFragment();
+    }
 
-            @Override
-            public RankingOverallViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.layout_ranking_overall, parent, false);
+    private void setDefaultFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, RankingOverallFragment.newInstance());
+        transaction.commit();
+    }
 
-                return new RankingOverallViewHolder(view);
-            }
-        };
 
-        adapter.notifyDataSetChanged();
-        mRankingOverallList.setAdapter(adapter);
-
+    @Override
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();;
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment, fragment.toString());
+        fragmentTransaction.addToBackStack(fragment.toString());
+        fragmentTransaction.commit();
     }
 }

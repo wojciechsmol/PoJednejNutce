@@ -1,15 +1,15 @@
 package com.smol.inz.pojednejnutce.model;
 
-public class UserGenreGussedSongsPOJO {
+public class UserCategoryGussedSongsPOJO {
 
     private int guessedOverall;
     private int guessedAmateur;
     private int guessedShowerSinger;
 
-    public UserGenreGussedSongsPOJO() {
+    public UserCategoryGussedSongsPOJO() {
     }
 
-    public UserGenreGussedSongsPOJO(int guessedOverall, int guessedAmateur, int guessedShowerSinger) {
+    public UserCategoryGussedSongsPOJO(int guessedOverall, int guessedAmateur, int guessedShowerSinger) {
         this.guessedOverall = guessedOverall;
         this.guessedAmateur = guessedAmateur;
         this.guessedShowerSinger = guessedShowerSinger;

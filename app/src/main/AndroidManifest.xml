@@ -24,11 +24,11 @@
             android:name=".view.SignUpActivity"
             android:parentActivityName=".view.LoginActivity" />
         <activity
-            android:name=".view.GenresActivity"
+            android:name=".view.CategoryActivity"
             android:parentActivityName=".view.HomeActivity" />
         <activity
             android:name=".view.LevelActivity"
-            android:parentActivityName=".view.GenresActivity" />
+            android:parentActivityName=".view.CategoryActivity" />
         <activity android:name=".view.PlayActivity" />
         <activity android:name=".view.GameEndActivity" />
         <activity android:name=".view.RankingActivity"></activity>

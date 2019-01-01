@@ -18,42 +18,42 @@ import com.google.firebase.database.ValueEventListener;
 import com.smol.inz.pojednejnutce.R;
 import com.smol.inz.pojednejnutce.model.UserPOJO;
 
-public class GenresActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
 
-    public static final String GENRE = "GENRE";
+    public static final String CATEGORY = "CATEGORY";
     public static final String POP = "POP";
 
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabaseReference;
     private Button mPopButton;
-    private TextView mUserPoints;
+    private TextView mUserScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_genres);
+        setContentView(R.layout.activity_categories);
         initialize();
     }
 
     private void initialize() {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mUserPoints = findViewById(R.id.user_points);
-        mPopButton = findViewById(R.id.button_pop_genre);
+        mUserScore = findViewById(R.id.user_score);
+        mPopButton = findViewById(R.id.button_pop_category);
         mPopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(GenresActivity.this, LevelActivity.class);
-                intent.putExtra(GENRE, POP);
+                Intent intent = new Intent(CategoryActivity.this, LevelActivity.class);
+                intent.putExtra(CATEGORY, POP);
                 startActivity(intent);
             }
         });
 
-        setListenerUserPoints();
+        setListenerUserScore();
     }
 
-    private void  setListenerUserPoints() {
-        //set value event listener for points text view
+    private void setListenerUserScore() {
+        //set value event listener for score text view
 
         mDatabaseReference.child("Users").child(mFirebaseAuth.getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -61,12 +61,12 @@ public class GenresActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         UserPOJO mUserInfo = dataSnapshot.getValue(UserPOJO.class);
-                        mUserPoints.setText(String.valueOf(mUserInfo.getPoints()));
+                        mUserScore.setText(String.valueOf(mUserInfo.getScore()));
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("HomeActivity: ", "POINTS UPDATE WENT WRONG!");
+                        Log.d("HomeActivity: ", "SCORE UPDATE WENT WRONG!");
                     }
                 });
     }

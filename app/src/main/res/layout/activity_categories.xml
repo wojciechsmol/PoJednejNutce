@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_genres"
+    android:id="@+id/activity_categories"
     style="@style/Layout"
-    tools:context="com.smol.inz.pojednejnutce.view.GenresActivity">
+    tools:context="com.smol.inz.pojednejnutce.view.CategoryActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
             android:src="@drawable/coin"
             android:layout_gravity="center"/>
         <TextView
-            android:id="@+id/user_points"
+            android:id="@+id/user_score"
             android:gravity="center"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/choose_genre"
+            android:text="@string/choose_category"
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:textStyle="bold"
@@ -58,11 +58,11 @@
 
             <!--FrameLayout for touch Effect-->
             <FrameLayout
-                android:id="@+id/pop_genre_frame"
+                android:id="@+id/pop_category_frame"
                 style="@style/ButtonWrapper"
                 android:layout_marginTop="@dimen/new_game_margin_top_main">
                 <Button
-                    android:id="@+id/button_pop_genre"
+                    android:id="@+id/button_pop_category"
                     style="@style/Button"
                     android:text="@string/pop"
                     android:shadowRadius="5"/>

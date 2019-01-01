@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.smol.inz.pojednejnutce.R;
-import com.smol.inz.pojednejnutce.model.UserGenreGussedSongsPOJO;
+import com.smol.inz.pojednejnutce.model.UserCategoryGussedSongsPOJO;
 import com.smol.inz.pojednejnutce.model.UserPOJO;
 import com.smol.inz.pojednejnutce.utils.DialogUtils;
 import com.smol.inz.pojednejnutce.utils.FormValidationUtils;
@@ -136,13 +136,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         addDataUsersTable();
-        //addDataAllGenresUserGuessedSongsCount();
-        addDataUserSpecificGenreGuessedSongsCount();
+        //addDataAllCategoriesUserGuessedSongsCount();
+        addDataUserSpecificCategoryGuessedSongsCount();
     }
 
     private void addDataUsersTable() {
 
-        UserPOJO mUser = new UserPOJO(mFirebaseUser.getEmail(), 0);
+        UserPOJO mUser = new UserPOJO(mFirebaseUser.getEmail(), 0, 0);
         mDatabaseReference.child("Users").child(mFirebaseUser.getUid()).setValue(mUser)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -159,30 +159,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-//    private void addDataAllGenresUserGuessedSongsCount() {
-//
-//        //TODO maybe not static genres but read from somewhere so that it is more flexible?
-//        UserGuessedSongsAllGenresPOJO mGuessedSongs = new UserGuessedSongsAllGenresPOJO(0);
-//        mDatabaseReference.child("UserGuessedSongsAllGenres").child(mFirebaseUser.getUid()).setValue(mGuessedSongs)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d("initAllGuessedSong: ", "SUCCESSFUL!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d("initAllGuessedSong", "WENT WRONG!");
-//                    }
-//                });
-//    }
+    private void addDataUserSpecificCategoryGuessedSongsCount() {
 
-    private void addDataUserSpecificGenreGuessedSongsCount() {
+        //TODO make it flexible depending on categories available
 
-        //TODO make it flexible depending on genres available
-
-        UserGenreGussedSongsPOJO mGuessedSongs = new UserGenreGussedSongsPOJO(0, 0, 0);
+        UserCategoryGussedSongsPOJO mGuessedSongs = new UserCategoryGussedSongsPOJO(0, 0, 0);
         mDatabaseReference.child("popUserGuessedSongsCount").child(mFirebaseUser.getUid()).setValue(mGuessedSongs)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

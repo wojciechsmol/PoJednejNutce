@@ -3,14 +3,16 @@ package com.smol.inz.pojednejnutce.model;
 public class UserPOJO {
 
     private String name;
-    private int points;
+    private int score;
+    private int scorePOP;
 
     public UserPOJO() {
     }
 
-    public UserPOJO(String name, int points) {
+    public UserPOJO(String name, int score, int scorePOP) {
         this.name = name;
-        this.points = points;
+        this.score = score;
+        this.scorePOP = scorePOP;
     }
 
     public String getName() {
@@ -21,11 +23,19 @@ public class UserPOJO {
         this.name = name;
     }
 
-    public int getPoints() {
-        return points;
+    public int getScore() {
+        return score;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScorePOP() {
+        return scorePOP;
+    }
+
+    public void setScorePOP(int scorePOP) {
+        this.scorePOP = scorePOP;
     }
 }
