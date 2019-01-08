@@ -40,22 +40,10 @@
                     android:id="@+id/button_main_menu"
                     style="@style/Button"
                     android:layout_below="@id/score_number"
-                    android:text="@string/main_menu" />
+                    android:text="Home" />
             </FrameLayout>
 
-            <!--FrameLayout for touch Effect-->
-            <FrameLayout
-                android:id="@+id/exit_button_frame"
-                style="@style/ButtonWrapper"
-                android:layout_below="@id/new_game_frame"
-                android:layout_marginTop="@dimen/exit_margin_top_end"
-                android:shadowRadius="5">
 
-                <Button
-                    android:id="@+id/button_exit"
-                    style="@style/Button"
-                    android:text="@string/exit_game" />
-            </FrameLayout>
 
         </RelativeLayout>
 

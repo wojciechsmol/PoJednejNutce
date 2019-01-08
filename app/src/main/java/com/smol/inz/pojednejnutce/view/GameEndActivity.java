@@ -28,21 +28,6 @@ public class GameEndActivity extends AppCompatActivity {
             }
         });
 
-        // Initializing exit button
-        Button exitButton = findViewById(R.id.button_exit);
-        //Setting onClickListener for the exitButton
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Before we quit the app changes activity to MainActivity so that this activity is
-                // visible when user goes to the app again
-                finish();
-                startActivity(new Intent(GameEndActivity.this, HomeActivity.class));
-                moveTaskToBack(true);
-
-            }
-        });
-
         // Initializing Textview for SCORE
         TextView scoreNumberTextView = findViewById(R.id.score_number);
         // Setting text for the scoreNumberTextView
@@ -53,6 +38,7 @@ public class GameEndActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // When the back button is pressed the app goes to Main Menu
+        finish();
         startActivity(new Intent(GameEndActivity.this, HomeActivity.class));
     }
 }

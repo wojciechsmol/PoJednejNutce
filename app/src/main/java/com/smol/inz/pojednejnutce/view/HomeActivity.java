@@ -69,7 +69,6 @@ public class HomeActivity extends AppCompatActivity {
         mRankingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 startActivity(new Intent(HomeActivity.this, RankingActivity.class));
             }
         });
@@ -93,6 +92,10 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d("HomeActivity: ", "SCORE UPDATE WENT WRONG!");
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
 

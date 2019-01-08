@@ -11,13 +11,15 @@
     <string name="str_registration_successful">Registration successful</string>
     <string name="play">PLAY</string>
     <string name="amateur">Amateur</string>
-    <string name="correct_answer">Correct answer!</string>
-    <string name="wrong_answer">Wrong answer!</string>
+    <string name="professional">Professional</string>
+    <string name="correct_answer">CORRECT ANSWER!</string>
+    <string name="wrong_answer">WRONG ANSWER!</string>
     <string name="exit_game">Exit Game</string>
     <string name="time_up">Time\'s up!</string>>
     <string name="shower_singer">Shower Singer</string>
     <string name="ranking">Ranking</string>
     <string name="pop">Pop</string>
+    <string name="rock">Rock</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel_game">Are you giving up?</string>

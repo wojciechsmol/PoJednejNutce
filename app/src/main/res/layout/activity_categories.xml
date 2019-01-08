@@ -68,6 +68,19 @@
                     android:shadowRadius="5"/>
             </FrameLayout>
 
+            <!--FrameLayout for touch Effect-->
+            <FrameLayout
+                android:id="@+id/rock_category_frame"
+                android:layout_below="@id/pop_category_frame"
+                style="@style/ButtonWrapper"
+                android:layout_marginTop="@dimen/new_game_margin_top_main">
+                <Button
+                    android:id="@+id/button_rock_category"
+                    style="@style/Button"
+                    android:text="@string/rock"
+                    android:shadowRadius="5"/>
+            </FrameLayout>
+
 
         </RelativeLayout>
 

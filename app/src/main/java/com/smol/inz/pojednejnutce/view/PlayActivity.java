@@ -1,6 +1,7 @@
 package com.smol.inz.pojednejnutce.view;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +77,8 @@ public class PlayActivity extends AppCompatActivity {
 
     private double finalTime;
 
+    RelativeLayout activity_play;
+
 
     /**
      * Handles playback of the sound file
@@ -102,6 +107,7 @@ public class PlayActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // Clean up resources
+
         releaseMediaPlayer();
         //Start audio
         startAudio();
@@ -139,6 +145,9 @@ public class PlayActivity extends AppCompatActivity {
 
     //Initializes required elements
     private void initialization() {
+
+
+
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -151,6 +160,9 @@ public class PlayActivity extends AppCompatActivity {
         buttonAnswer3 = (Button) findViewById(R.id.button_answer3);
         buttonAnswer3.setOnClickListener(buttonAnswerListener);
         wasButtonBlocked = false;
+
+        activity_play = findViewById(R.id.activity_play);
+
         ImageButton exitIconButton = findViewById(R.id.exit_icon);
         // Setting onClickLister for the ImageButton
         exitIconButton.setOnClickListener(new View.OnClickListener() {
@@ -271,6 +283,7 @@ public class PlayActivity extends AppCompatActivity {
     private View.OnClickListener buttonAnswerListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             // Blocking the buttons
             blockButtons();
 
@@ -294,18 +307,19 @@ public class PlayActivity extends AppCompatActivity {
                 mAnswerMediaPlayer.start();
 
 
-                // Showing a toast with info that the answer was correct
-                final Toast toast = Toast.makeText(PlayActivity.this, getString(R.string.correct_answer) + ": + " +game.correctAnswer(timeGuessed, finalTime), Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, GRAVITY_Y_AXE);
-                toast.show();
 
-                // Cancelling Toast so that it lasts time specified in TOAST_DURATION
-                myHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        toast.cancel();
-                    }
-                }, TOAST_DURATION);
+
+                // Showing a toast with info that the answer was correct
+                final Snackbar snackbar = Snackbar.make(activity_play, getString(R.string.correct_answer) + "   + " +game.correctAnswer(timeGuessed, finalTime) + " POINTS!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+
+//                // Cancelling Toast so that it lasts time specified in TOAST_DURATION
+//                myHandler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        snackbar.();
+//                    }
+//                }, TOAST_DURATION);
 
                 // The transition goes after TRANSITION TIME:
                 myHandler.postDelayed(new Runnable() {
@@ -378,6 +392,9 @@ public class PlayActivity extends AppCompatActivity {
             }catch (Exception e) {
                 e.printStackTrace();
             }
+
+
+
 
             // setting startTime for the progressBar
             startTime = mMediaPlayer.getCurrentPosition();
@@ -495,6 +512,12 @@ public class PlayActivity extends AppCompatActivity {
                                 scorePop += game.getmScore();
                                 user.setScorePOP(scorePop);
                                 break;
+
+                            case ROCK:
+                                int scoreRock = user.getScoreROCK();
+                                scoreRock += game.getmScore();
+                                user.setScoreROCK(scoreRock);
+                                break;
                         }
 
                         userReference.setValue(user);
@@ -527,6 +550,10 @@ public class PlayActivity extends AppCompatActivity {
                         break;
                     case SHOWER_SINGER:
                         userCategoryGussedSongsPOJO.setGuessedShowerSinger(userCategoryGussedSongsPOJO.getGuessedShowerSinger() + game.getmGuessedSongsCurrentGameCount());
+                        break;
+                    case PROFESSIONAL:
+                        userCategoryGussedSongsPOJO.setGuessedProfessional(userCategoryGussedSongsPOJO.getGuessedProfessional() + game.getmGuessedSongsCurrentGameCount());
+                        break;
                 }
 
                 guessedSongsReference.setValue(userCategoryGussedSongsPOJO);
@@ -562,6 +589,7 @@ public class PlayActivity extends AppCompatActivity {
         allTask.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                finish();
                 startActivity(new Intent(PlayActivity.this, GameEndActivity.class));
             }
         });

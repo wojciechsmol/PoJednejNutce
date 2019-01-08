@@ -27,7 +27,7 @@
             android:layout_row="0"
             android:layout_column="1"
             android:layout_marginLeft="15dp"
-            android:layout_weight="7.5"
+            android:layout_weight="7"
             android:text="wojciechsmol@gmail.com"
             android:textColor="@color/textColor"
             android:textSize="18sp" />
@@ -38,24 +38,24 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp"
 
-            android:layout_weight="2.5"
+            android:layout_weight="3"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/coin" />
+                android:src="@drawable/time_icon" />
 
             <TextView
-                android:id="@+id/user_score_text"
+                android:id="@+id/guess_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="250"
+
+                android:text="02:123"
                 android:textColor="@color/textColor"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 

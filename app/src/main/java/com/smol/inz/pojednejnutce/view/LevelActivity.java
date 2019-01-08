@@ -1,5 +1,6 @@
 package com.smol.inz.pojednejnutce.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -36,24 +37,32 @@ public class LevelActivity extends AppCompatActivity {
 
     public static final String LEVEL = "LEVEL";
 
-    public static final int POP_AVAILABLE_ALL = 45;
-    public static final int POP_AMATEUR_AVAILABLE_SONGS = 22;
-    public static final int POP_SHOWER_SINGER_AVAILABLE_SONGS = 23;
+    public static final int POP_AVAILABLE_ALL = 28;
+    public static final int POP_AMATEUR_AVAILABLE_SONGS = 12;
+    public static final int POP_SHOWER_SINGER_AVAILABLE_SONGS = 12;
+    public static final int POP_PROFESSIONAL_AVAILABLE_SONGS = 4;
 
+    public static final int ROCK_AVAILABLE_ALL = 29;
+    public static final int ROCK_AMATEUR_AVAILABLE_SONGS = 12;
+    public static final int ROCK_SHOWER_SINGER_AVAILABLE_SONGS = 12;
+    public static final int ROCK_PROFESSIONAL_AVAILABLE_SONGS = 5;
 
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabaseReference;
 
     private Button mAmateurButton;
     private Button mShowerSingerButton;
+    private Button mProfessionalButton;
     private TextView mCategoryTitleText;
     private Category mCategory;
     private TextView mUserScore;
     private TextView mGuessedOverallText;
     private TextView mGuessedAmateurText;
     private TextView mGuessedShowerSingerText;
+    private TextView mGuessedProfessionalText;
     private ImageView lockAmateur;
     private ImageView lockShowerSinger;
+    private ImageView lockProfessional;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,7 @@ public class LevelActivity extends AppCompatActivity {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mUserScore = findViewById(R.id.user_score);
+
         mAmateurButton = findViewById(R.id.button_amateur);
         mAmateurButton.setEnabled(false);
         mAmateurButton.setAlpha(.3f);;
@@ -88,13 +98,25 @@ public class LevelActivity extends AppCompatActivity {
             }
         });
 
+        mProfessionalButton = findViewById(R.id.button_professional);
+        mProfessionalButton.setEnabled(false);
+        mProfessionalButton.setAlpha(.3f);
+        mProfessionalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickCategory(Level.PROFESSIONAL);
+            }
+        });
+
         mCategoryTitleText = findViewById(R.id.category_title_text);
         mCategoryTitleText.setText(getmCategory().toString());
         mGuessedOverallText = findViewById(R.id.guessed_overall_text);
         mGuessedAmateurText = findViewById(R.id.guessed_amateur_text);
         mGuessedShowerSingerText = findViewById(R.id.guessed_shower_singer_text);
+        mGuessedProfessionalText = findViewById(R.id.guessed_professional_text);
         lockAmateur = findViewById(R.id.lock_image_amateur);
         lockShowerSinger = findViewById(R.id.lock_image_shower_singer);
+        lockProfessional = findViewById(R.id.lock_image_professional);
         getCategoryUserGuessedSongsCount();
         setListenerUserScore();
 
@@ -127,6 +149,9 @@ public class LevelActivity extends AppCompatActivity {
         switch (intent.getStringExtra(CategoryActivity.CATEGORY)) {
             case "POP":
                 setmCategory(Category.POP);
+                break;
+            case "ROCK":
+                setmCategory(Category.ROCK);
                 break;
         }
     }
@@ -255,33 +280,80 @@ public class LevelActivity extends AppCompatActivity {
         int categoryAvailableAll = 0;
         int categoryAmateurAvailable = 0;
         int categoryShowerSingerAvailable = 0;
+        int categoryProfessionalAvailable = 0;
 
         switch (mCategory) {
             case POP:
                 categoryAvailableAll = POP_AVAILABLE_ALL;
                 categoryAmateurAvailable = POP_AMATEUR_AVAILABLE_SONGS;
                 categoryShowerSingerAvailable = POP_SHOWER_SINGER_AVAILABLE_SONGS;
-            break;
+                categoryProfessionalAvailable = POP_AMATEUR_AVAILABLE_SONGS;
+                break;
+
+            case ROCK:
+                categoryAvailableAll = ROCK_AVAILABLE_ALL;
+                categoryAmateurAvailable = ROCK_AMATEUR_AVAILABLE_SONGS;
+                categoryShowerSingerAvailable = ROCK_SHOWER_SINGER_AVAILABLE_SONGS;
+                categoryProfessionalAvailable = ROCK_PROFESSIONAL_AVAILABLE_SONGS;
+                break;
+
         }
 
         mGuessedOverallText.setText(String.valueOf(userCategoryGussedSongsPOJO.getGuessedOverall()) + "/" + categoryAvailableAll);
         mGuessedAmateurText.setText(String.valueOf(userCategoryGussedSongsPOJO.getGuessedAmateur()) + "/" + categoryAmateurAvailable);
         mGuessedShowerSingerText.setText(String.valueOf(userCategoryGussedSongsPOJO.getGuessedShowerSinger()) + "/" + categoryShowerSingerAvailable);
+        mGuessedProfessionalText.setText(String.valueOf(userCategoryGussedSongsPOJO.getGuessedProfessional()) + "/" + categoryProfessionalAvailable);
     }
 
     private void setButtonsVisibilityAndLocks(UserCategoryGussedSongsPOJO userCategoryGussedSongsPOJO) {
 
-        if (userCategoryGussedSongsPOJO.getGuessedAmateur() < POP_AMATEUR_AVAILABLE_SONGS) {
-            mAmateurButton.setEnabled(true);
-            mAmateurButton.setAlpha(1);
-            lockAmateur.setImageResource(R.drawable.lock_open);
-        }
+        switch (mCategory) {
 
-        if (userCategoryGussedSongsPOJO.getGuessedAmateur() >= POP_AMATEUR_AVAILABLE_SONGS
-                && userCategoryGussedSongsPOJO.getGuessedShowerSinger() < POP_SHOWER_SINGER_AVAILABLE_SONGS) {
-            mShowerSingerButton.setEnabled(true);
-            mShowerSingerButton.setAlpha(1);
-            lockAmateur.setImageResource(R.drawable.lock_open);
+            case POP:
+                if (userCategoryGussedSongsPOJO.getGuessedAmateur() < POP_AMATEUR_AVAILABLE_SONGS) {
+                    mAmateurButton.setEnabled(true);
+                    mAmateurButton.setAlpha(1);
+                    lockAmateur.setImageResource(R.drawable.lock_open);
+                }
+
+                if (userCategoryGussedSongsPOJO.getGuessedAmateur() >= POP_AMATEUR_AVAILABLE_SONGS
+                        && userCategoryGussedSongsPOJO.getGuessedShowerSinger() < POP_SHOWER_SINGER_AVAILABLE_SONGS) {
+                    mShowerSingerButton.setEnabled(true);
+                    mShowerSingerButton.setAlpha(1);
+                    lockAmateur.setImageResource(R.drawable.lock_open);
+                }
+
+                if (userCategoryGussedSongsPOJO.getGuessedShowerSinger() >= POP_PROFESSIONAL_AVAILABLE_SONGS
+                        && userCategoryGussedSongsPOJO.getGuessedProfessional() < POP_PROFESSIONAL_AVAILABLE_SONGS) {
+                    mProfessionalButton.setEnabled(true);
+                    mProfessionalButton.setAlpha(1);
+                    lockProfessional.setImageResource(R.drawable.lock_open);
+                }
+                break;
+
+
+            case ROCK:
+                if (userCategoryGussedSongsPOJO.getGuessedAmateur() < ROCK_AMATEUR_AVAILABLE_SONGS) {
+                    mAmateurButton.setEnabled(true);
+                    mAmateurButton.setAlpha(1);
+                    lockAmateur.setImageResource(R.drawable.lock_open);
+                }
+
+                if (userCategoryGussedSongsPOJO.getGuessedAmateur() >= ROCK_AMATEUR_AVAILABLE_SONGS
+                        && userCategoryGussedSongsPOJO.getGuessedShowerSinger() < ROCK_SHOWER_SINGER_AVAILABLE_SONGS) {
+                    mShowerSingerButton.setEnabled(true);
+                    mShowerSingerButton.setAlpha(1);
+                    lockAmateur.setImageResource(R.drawable.lock_open);
+                }
+
+                if (userCategoryGussedSongsPOJO.getGuessedShowerSinger() >= ROCK_PROFESSIONAL_AVAILABLE_SONGS
+                        && userCategoryGussedSongsPOJO.getGuessedProfessional() < ROCK_PROFESSIONAL_AVAILABLE_SONGS) {
+                    mProfessionalButton.setEnabled(true);
+                    mProfessionalButton.setAlpha(1);
+                    lockProfessional.setImageResource(R.drawable.lock_open);
+                }
+                break;
+
         }
 
 

@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.smol.inz.pojednejnutce.R;
-import com.smol.inz.pojednejnutce.utils.Category;
 import com.smol.inz.pojednejnutce.utils.FragmentChangeListener;
 
 public class RankingCategoriesFragment extends Fragment {
 
     View myFragment;
     private Button mPopButton;
+    private Button mRockButton;
 
     public static RankingCategoriesFragment newInstance() {
         RankingCategoriesFragment rankingCategoriesFragment = new RankingCategoriesFragment();
@@ -44,6 +44,19 @@ public class RankingCategoriesFragment extends Fragment {
                 Fragment fr = RankingSpecificCategoryFragment.newInstance();
                 Bundle args = new Bundle();
                 args.putString("Category", "POP");
+                fr.setArguments(args);
+                FragmentChangeListener fc = (FragmentChangeListener) getActivity();
+                fc.replaceFragment(fr);
+            }
+        });
+
+        mRockButton = myFragment.findViewById(R.id.button_rock_category);
+        mRockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fr = RankingSpecificCategoryFragment.newInstance();
+                Bundle args = new Bundle();
+                args.putString("Category", "ROCK");
                 fr.setArguments(args);
                 FragmentChangeListener fc = (FragmentChangeListener) getActivity();
                 fc.replaceFragment(fr);

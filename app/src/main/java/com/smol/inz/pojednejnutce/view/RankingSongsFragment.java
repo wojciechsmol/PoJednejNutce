@@ -21,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.smol.inz.pojednejnutce.R;
 import com.smol.inz.pojednejnutce.model.SongSimplePOJO;
 import com.smol.inz.pojednejnutce.model.UserPOJO;
+import com.smol.inz.pojednejnutce.utils.FragmentChangeListener;
 import com.smol.inz.pojednejnutce.utils.ItemClickListener;
 import com.smol.inz.pojednejnutce.viewHolder.RankingSongsViewHolder;
 import com.smol.inz.pojednejnutce.viewHolder.RankingViewHolder;
@@ -88,11 +89,16 @@ public class RankingSongsFragment extends Fragment {
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongCLick) {
-                        Toast.makeText(getActivity(), "SONG: " + model.getTitle(), Toast.LENGTH_SHORT);
+                        Fragment fr = RankingSpecificSongFragment.newInstance();
+                        Bundle args = new Bundle();
+                        args.putString("SongTitle", model.getTitle());
+                        fr.setArguments(args);
+                        FragmentChangeListener fc = (FragmentChangeListener) getActivity();
+                        fc.replaceFragment(fr);
                     }
                 });
 
-
+                mSongsList.smoothScrollToPosition(adapter.getItemCount());
 
             }
 

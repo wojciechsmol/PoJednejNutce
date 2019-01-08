@@ -166,7 +166,7 @@ public class Game {
 
         GuessedTimeUserPOJO guessedTimeUserPOJO = new GuessedTimeUserPOJO(mFirebaseAuth.getCurrentUser().getEmail(), realGuessedTime);
 
-        mDatabaseReference.child("SongGussedTime").child(getCurrentSong().getId()).child(mFirebaseAuth.getCurrentUser().getUid())
+        mDatabaseReference.child("SongGuessedTime").child(getCurrentSong().getId()).child(mFirebaseAuth.getCurrentUser().getUid())
                 .setValue(guessedTimeUserPOJO)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

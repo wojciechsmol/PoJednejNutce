@@ -5,14 +5,16 @@ public class UserPOJO {
     private String name;
     private int score;
     private int scorePOP;
+    private int scoreROCK;
 
     public UserPOJO() {
     }
 
-    public UserPOJO(String name, int score, int scorePOP) {
+    public UserPOJO(String name, int score, int scorePOP, int scoreROCK) {
         this.name = name;
         this.score = score;
         this.scorePOP = scorePOP;
+        this.scoreROCK = scoreROCK;
     }
 
     public String getName() {
@@ -37,5 +39,13 @@ public class UserPOJO {
 
     public void setScorePOP(int scorePOP) {
         this.scorePOP = scorePOP;
+    }
+
+    public int getScoreROCK() {
+        return scoreROCK;
+    }
+
+    public void setScoreROCK(int scoreROCK) {
+        this.scoreROCK = scoreROCK;
     }
 }

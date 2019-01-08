@@ -42,7 +42,8 @@
 
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:gravity="center"
+                android:gravity="right"
+                android:paddingEnd="15dp"
                 android:text="Score:"
                 android:textColor="@color/textColor"
                 android:textSize="20sp"

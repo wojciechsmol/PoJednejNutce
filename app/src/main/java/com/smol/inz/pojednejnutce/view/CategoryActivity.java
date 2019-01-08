@@ -22,10 +22,12 @@ public class CategoryActivity extends AppCompatActivity {
 
     public static final String CATEGORY = "CATEGORY";
     public static final String POP = "POP";
+    public static final String ROCK = "ROCK";
 
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabaseReference;
     private Button mPopButton;
+    private Button mRockButton;
     private TextView mUserScore;
 
     @Override
@@ -45,6 +47,15 @@ public class CategoryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CategoryActivity.this, LevelActivity.class);
                 intent.putExtra(CATEGORY, POP);
+                startActivity(intent);
+            }
+        });
+        mRockButton = findViewById(R.id.button_rock_category);
+        mRockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CategoryActivity.this, LevelActivity.class);
+                intent.putExtra(CATEGORY, ROCK);
                 startActivity(intent);
             }
         });

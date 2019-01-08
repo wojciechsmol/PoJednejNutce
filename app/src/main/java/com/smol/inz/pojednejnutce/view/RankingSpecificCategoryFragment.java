@@ -97,6 +97,9 @@ public class RankingSpecificCategoryFragment extends Fragment {
                 switch (mCategory) {
                     case "POP":
                         holder.mUserScoreText.setText(String.valueOf(model.getScorePOP()));
+                        break;
+                    case "ROCK":
+                        holder.mUserScoreText.setText(String.valueOf(model.getScoreROCK()));
                 }
 
                 if (model.getName().equals(mFirebaseAuth.getCurrentUser().getEmail())) {
@@ -105,6 +108,8 @@ public class RankingSpecificCategoryFragment extends Fragment {
                     holder.mUserNameText.setTypeface(boldTypeface);
                     holder.mUserScoreText.setTypeface(boldTypeface);
                 }
+
+                mRankingCategoryList.smoothScrollToPosition(adapter.getItemCount());
 
             }
 

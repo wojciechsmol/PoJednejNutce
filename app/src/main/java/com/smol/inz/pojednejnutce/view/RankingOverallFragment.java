@@ -91,6 +91,7 @@ public class RankingOverallFragment extends Fragment {
                     holder.mUserScoreText.setTypeface(boldTypeface);
                 }
 
+                mRankingOverallList.smoothScrollToPosition(adapter.getItemCount());
             }
 
             @Override
@@ -101,6 +102,8 @@ public class RankingOverallFragment extends Fragment {
                 return new RankingViewHolder(view);
             }
         };
+
+
 
         adapter.notifyDataSetChanged();
         mRankingOverallList.setAdapter(adapter);

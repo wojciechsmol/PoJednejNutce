@@ -113,10 +113,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             Snackbar.make(activity_sign_up,"Register success! ",Snackbar.LENGTH_SHORT).show();
                             DialogUtils.dismissProgressDialog();
 
-                            //TODO Add progress dialog here!
                             initDatabaseDataForNewUser();
-                            //TODO Stop progress dialog here
-                            startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
+                            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                         }
                     }
                 });
@@ -142,7 +140,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void addDataUsersTable() {
 
-        UserPOJO mUser = new UserPOJO(mFirebaseUser.getEmail(), 0, 0);
+        UserPOJO mUser = new UserPOJO(mFirebaseUser.getEmail(), 0, 0, 0);
         mDatabaseReference.child("Users").child(mFirebaseUser.getUid()).setValue(mUser)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -163,7 +161,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         //TODO make it flexible depending on categories available
 
-        UserCategoryGussedSongsPOJO mGuessedSongs = new UserCategoryGussedSongsPOJO(0, 0, 0);
+        UserCategoryGussedSongsPOJO mGuessedSongs = new UserCategoryGussedSongsPOJO(0, 0, 0, 0);
         mDatabaseReference.child("popUserGuessedSongsCount").child(mFirebaseUser.getUid()).setValue(mGuessedSongs)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -178,7 +176,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
 
-        //TODO ADD OTHER CATEGORIES
+        mDatabaseReference.child("rockUserGuessedSongsCount").child(mFirebaseUser.getUid()).setValue(mGuessedSongs)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("initRockGuessedSong: ", "SUCCESSFUL!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("initRockGuessedSong", "WENT WRONG!");
+                    }
+                });
     }
 }
 

@@ -9,29 +9,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.LoginActivity">
+        <activity android:name=".view.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.HomeActivity" />
+        <activity android:name=".view.HomeActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.ForgotPasswordActivity"
-            android:parentActivityName=".view.LoginActivity" />
+            android:parentActivityName=".view.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.SignUpActivity"
-            android:parentActivityName=".view.LoginActivity" />
+            android:parentActivityName=".view.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.CategoryActivity"
-            android:parentActivityName=".view.HomeActivity" />
+            android:parentActivityName=".view.HomeActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.LevelActivity"
-            android:parentActivityName=".view.CategoryActivity" />
-        <activity android:name=".view.PlayActivity" />
-        <activity android:name=".view.GameEndActivity" />
-        <activity android:name=".view.RankingActivity"></activity>
+            android:parentActivityName=".view.CategoryActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.PlayActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.GameEndActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.RankingActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

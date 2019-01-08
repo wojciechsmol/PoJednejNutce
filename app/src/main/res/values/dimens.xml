@@ -17,7 +17,7 @@
     <dimen name="text_question_margin_bottom">7dp</dimen>
     <dimen name="text_score_size">30sp</dimen>
     <dimen name="text_score_nr_size">50sp</dimen>
-    <dimen name="new_game_margin_top_main">40dp</dimen>
+    <dimen name="new_game_margin_top_main">30dp</dimen>
     <dimen name="exit_margin_top_main">40dp</dimen>
     <dimen name="button_wrapper_margin">5dp</dimen>
     <dimen name="new_game_margin_top_end">15dp</dimen>

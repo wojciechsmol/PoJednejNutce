@@ -1,5 +1,6 @@
 package com.smol.inz.pojednejnutce.view;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -65,4 +66,6 @@ public class RankingActivity extends AppCompatActivity implements FragmentChange
         fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.commit();
     }
+
+
 }
