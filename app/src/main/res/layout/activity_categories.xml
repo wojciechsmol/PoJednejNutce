@@ -81,6 +81,19 @@
                     android:shadowRadius="5"/>
             </FrameLayout>
 
+            <!--FrameLayout for touch Effect-->
+            <FrameLayout
+                android:id="@+id/hiphop_category_frame"
+                android:layout_below="@id/rock_category_frame"
+                style="@style/ButtonWrapper"
+                android:layout_marginTop="@dimen/new_game_margin_top_main">
+                <Button
+                    android:id="@+id/button_hiphop_category"
+                    style="@style/Button"
+                    android:text="hip-hop"
+                    android:shadowRadius="5"/>
+            </FrameLayout>
+
 
         </RelativeLayout>
 

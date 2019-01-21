@@ -80,6 +80,11 @@ public class RankingSpecificSongFragment extends Fragment {
         String songTitle = getArguments().getString("SongTitle");
 
         mSongTitleText = myFragment.findViewById(R.id.song_title_text);
+
+
+
+
+
         mSongTitleText.setText(songTitle);
 
         setSongIdFromTitle(songTitle);
@@ -97,6 +102,7 @@ public class RankingSpecificSongFragment extends Fragment {
             protected void onBindViewHolder(RankingGuessTimeViewHolder holder, int position, GuessedTimeUserPOJO model) {
 
                 holder.mUserNameText.setText(model.getName());
+
                 holder.mGuessTimeText.setText(convertMilisecondsToReadableFormat(model.getGussedTime()));
 
                 if (model.getName().equals(mFirebaseAuth.getCurrentUser().getEmail())) {

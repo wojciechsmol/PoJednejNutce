@@ -184,9 +184,12 @@ public class PlayActivity extends AppCompatActivity {
 
         List<String> possibleAnswers = new ArrayList<>();
         possibleAnswers.add(game.getCurrentSong().getTitle());
-        possibleAnswers.add(game.getCurrentSong().getAnswer2());
-        possibleAnswers.add(game.getCurrentSong().getAnswer3());
-        possibleAnswers.add(game.getCurrentSong().getAnswer4());
+        //possibleAnswers.add(game.getCurrentSong().getAnswer2());
+        //possibleAnswers.add(game.getCurrentSong().getAnswer3());
+        //possibleAnswers.add(game.getCurrentSong().getAnswer4());
+        possibleAnswers.add("Hey Joe");
+        possibleAnswers.add("Iris");
+        possibleAnswers.add("Twist And Shout");
 
         Collections.shuffle(possibleAnswers);
         // set Answers Texts on the Buttons

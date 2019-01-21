@@ -48,4 +48,6 @@ public class UserPOJO {
     public void setScoreROCK(int scoreROCK) {
         this.scoreROCK = scoreROCK;
     }
+
+
 }

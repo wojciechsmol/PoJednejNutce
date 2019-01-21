@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginUser(String email, final String password) {
         closeKeyboard();
         DialogUtils.showProgressDialog(this, "", getString(R.string.sign_in), false);
+
         mFirebaseAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
